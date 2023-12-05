@@ -1,13 +1,3 @@
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import utils
-
-DAY = "08"
-
-def main():
-    utils.run_solution(solution_one, DAY)
-    utils.run_solution(solution_two, DAY)
-
 def solution_one(input):
     visible_trees = 0
     num_edge_trees = (2*len(input)) + (2*len(input[0])) - 4
@@ -21,6 +11,16 @@ def solution_one(input):
 
     visible_trees = num_edge_trees + visible_inside_trees
     return visible_trees
+
+def solution_two(input):
+    highest_scenic_score = 0
+    for row in range(0, len(input)-1):
+        for col in range(0, len(input[0])-1):
+            current_scenic_score = get_scenic_score(row, col, input)
+            if current_scenic_score > highest_scenic_score:
+                highest_scenic_score = current_scenic_score
+
+    return highest_scenic_score
 
 def get_visibility(row, col, trees):
     sides_visible_from = 4
@@ -62,16 +62,6 @@ def get_visibility(row, col, trees):
         return True
     else:
         return False
-
-def solution_two(input):
-    highest_scenic_score = 0
-    for row in range(0, len(input)-1):
-        for col in range(0, len(input[0])-1):
-            current_scenic_score = get_scenic_score(row, col, input)
-            if current_scenic_score > highest_scenic_score:
-                highest_scenic_score = current_scenic_score
-
-    return highest_scenic_score
 
 def get_scenic_score(row, col, trees):
     scenic_score = 0

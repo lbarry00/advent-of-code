@@ -1,12 +1,8 @@
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import utils
+def solution_one(input):
+    return __calculate_part_one(input)
 
-DAY = "02"
-
-def main():
-    utils.run_solution(calculate_part_one, DAY)
-    utils.run_solution(calculate_part_two, DAY)
+def solution_two(input):
+    return __calculate_part_two(input)
 
 
 # A -   rock        -   X  
@@ -15,7 +11,7 @@ def main():
 # paper > rock > scissors 
 #   ^---------------v
 
-def calculate_part_one(input):
+def __calculate_part_one(input):
     total_score = 0
 
     # winning combinations for you
@@ -49,7 +45,7 @@ def calculate_part_one(input):
 
     return total_score
 
-def calculate_part_two(input):
+def __calculate_part_two(input):
     total_score = 0
 
     # what to play based on what opponent plays 
@@ -81,6 +77,3 @@ def calculate_part_two(input):
         total_score += round_score
 
     return total_score
-
-if __name__ == "__main__":
-    main()

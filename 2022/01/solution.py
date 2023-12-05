@@ -1,14 +1,10 @@
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import utils
+def solution_one(input):
+    return __calculate_most_calories_carried(input)
 
-DAY = "01"
+def solution_two(input):
+    return __calculate_top_three_calories_carried(input)
 
-def main():
-    utils.run_solution(calculate_most_calories_carried, DAY)
-    utils.run_solution(calculate_top_three_calories_carried, DAY)
-
-def calculate_most_calories_carried(input):
+def __calculate_most_calories_carried(input):
     most_calories_carried = 0
     current_elf = 0
 
@@ -22,7 +18,7 @@ def calculate_most_calories_carried(input):
 
     return most_calories_carried
 
-def calculate_top_three_calories_carried(input):
+def __calculate_top_three_calories_carried(input):
     calorie_sums = []
     current_elf = 0
 
@@ -35,6 +31,3 @@ def calculate_top_three_calories_carried(input):
 
     calorie_sums.sort(reverse=True)
     return calorie_sums[0] + calorie_sums[1] + calorie_sums[2]
-
-if __name__ == "__main__":
-    main()

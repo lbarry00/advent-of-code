@@ -1,14 +1,10 @@
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import utils
+def solution_one(input):
+    return __calculate_priorities_sum(input)
 
-DAY = "03"
+def solution_two(input):
+    return __calculate_priorities_sum_three_compartments(input)
 
-def main():
-    utils.run_solution(calculate_priorities_sum, DAY)
-    utils.run_solution(calculate_priorities_sum_three_compartments, DAY)
-
-def calculate_priorities_sum(input):
+def __calculate_priorities_sum(input):
     priority_sum = 0
     for line in input:
         compartment_size = int(len(line) / 2)
@@ -17,11 +13,11 @@ def calculate_priorities_sum(input):
 
         intersection_list = first_compartment & second_compartment
         for c in intersection_list:
-            priority_sum += calculatePriority(c)
+            priority_sum += __calculatePriority(c)
 
     return priority_sum
 
-def calculate_priorities_sum_three_compartments(input):
+def __calculate_priorities_sum_three_compartments(input):
     priority_sum = 0
     for i in range(0, len(input) - 1, 3):
         first_compartment = set(input[i])
@@ -30,17 +26,14 @@ def calculate_priorities_sum_three_compartments(input):
 
         intersection_list = first_compartment & second_compartment & third_compartment
         for c in intersection_list:
-            priority_sum += calculatePriority(c)
+            priority_sum += __calculatePriority(c)
     return priority_sum
 
 # returns priority value for a given character. uses ascii codes to calculate priority
-def calculatePriority(character):
+def __calculatePriority(character):
     ascii = ord(character)
     if str(character).isupper():
         priority = ascii - 38
     else:
         priority = ascii - 96
     return priority
-
-if __name__ == "__main__":
-    main()

@@ -1,18 +1,15 @@
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import utils
 from collections import deque
 import itertools
 
-DAY = "05"
+def solution_one(input):
+    return __get_top_stack_items_after_rearrange(input)
 
-def main():
-    utils.run_solution(get_top_stack_items_after_rearrange, DAY)
-    utils.run_solution(get_top_stack_items_after_rearrange_moving_inorder, DAY)
+def solution_two(input):
+    return __get_top_stack_items_after_rearrange_moving_inorder(input)
 
-def get_top_stack_items_after_rearrange(input):
-    stacks_dict = get_stacks_dict_from_raw_input(input[0:8])
-    operations = get_stack_operations_from_raw_input(input[10:len(input)])
+def __get_top_stack_items_after_rearrange(input):
+    stacks_dict = __get_stacks_dict_from_raw_input(input[0:8])
+    operations = __get_stack_operations_from_raw_input(input[10:len(input)])
 
     for op in operations:
         crates_moved = 0
@@ -21,11 +18,11 @@ def get_top_stack_items_after_rearrange(input):
             stacks_dict[op.target_stack].append(item_to_move)
             crates_moved += 1
 
-    return get_result_string_from_stacks(stacks_dict)
+    return __get_result_string_from_stacks(stacks_dict)
 
-def get_top_stack_items_after_rearrange_moving_inorder(input):
-    stacks_dict = get_stacks_dict_from_raw_input(input[0:8])
-    operations = get_stack_operations_from_raw_input(input[10:len(input)])
+def __get_top_stack_items_after_rearrange_moving_inorder(input):
+    stacks_dict = __get_stacks_dict_from_raw_input(input[0:8])
+    operations = __get_stack_operations_from_raw_input(input[10:len(input)])
 
     for op in operations:
         crates_moved = 0
@@ -37,10 +34,10 @@ def get_top_stack_items_after_rearrange_moving_inorder(input):
         for i in reversed(items_to_move):
             stacks_dict[op.target_stack].append(i)
 
-    return get_result_string_from_stacks(stacks_dict)
+    return __get_result_string_from_stacks(stacks_dict)
 
 # returns dict {index: deque()}
-def get_stacks_dict_from_raw_input(input_lines):
+def __get_stacks_dict_from_raw_input(input_lines):
     result = {}
     for i in range(9):
         result[i] = deque()
@@ -57,7 +54,7 @@ def get_stacks_dict_from_raw_input(input_lines):
 
     return result
 
-def get_stack_operations_from_raw_input(input_lines):
+def __get_stack_operations_from_raw_input(input_lines):
     result = []
     for line in input_lines:
         words = line.split(" ")
@@ -65,7 +62,7 @@ def get_stack_operations_from_raw_input(input_lines):
         result.append(new_stack)
     return result
 
-def get_result_string_from_stacks(stacks_dict):
+def __get_result_string_from_stacks(stacks_dict):
     result_str = ""
     for i in stacks_dict.keys():
         top_item = stacks_dict[i].pop()
@@ -77,6 +74,3 @@ class StackOperation:
         self.crates_to_move = int(crates)
         self.source_stack = int(source) - 1
         self.target_stack = int(target) - 1
-        
-if __name__ == "__main__":
-    main()

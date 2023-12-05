@@ -1,19 +1,12 @@
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import utils
-
-DAY = "07"
-
-def main():
-    utils.run_solution(solution_one, DAY)
-    utils.run_solution(solution_two, DAY)
-
 def solution_one(input):
-    root = build_file_system(input)
-    calculate_size(root)
-    return get_sum_sizes_less_than_10k(root)
+    root = __build_file_system(input)
+    __calculate_size(root)
+    return __get_sum_sizes_less_than_10k(root)
 
-def build_file_system(input):
+def solution_two(input):
+    return 0
+
+def __build_file_system(input):
     root = Folder("/")
     root.parent = None
     cwd = root
@@ -38,34 +31,31 @@ def build_file_system(input):
             cwd.append_contents(new_file)
     return root
 
-def calculate_size(f):
+def __calculate_size(f):
     if isinstance(f, File):
         return f.size
     else:
         for child in f.contents:
-            f.size = calculate_size_r(child)
+            f.size = __calculate_size_r(child)
 
-def calculate_size_r(f):
+def __calculate_size_r(f):
     if isinstance(f, File):
         return f.size
     else:
         size = 0
         for child in f.contents:
-            f.size += calculate_size_r(child)
+            f.size += __calculate_size_r(child)
         return size
 
-def get_sum_sizes_less_than_10k(folder):
+def __get_sum_sizes_less_than_10k(folder):
     sum = 0
     if folder.size <= 100000:
         sum += folder.size
 
     for f in folder.contents:
         if isinstance(f, Folder):
-            sum += get_sum_sizes_less_than_10k(f)
+            sum += __get_sum_sizes_less_than_10k(f)
     return sum
-
-def solution_two(input):
-    return 0
 
 class File:
     def __init__(self, size, name):
