@@ -29,7 +29,9 @@ def solution_one(input):
                     else: break
                 
                 latest_visited = x + num_digits
-
+                
+                # note: I cheated and added a perimeter of dots around the original input so
+                # there's no need to worry about hitting an out of bounds
                 above = input[y-1][x-1:x+num_digits+1]
                 above = re.sub(find_symbols_pattern, "", above)
 
