@@ -1,7 +1,7 @@
 import os, sys, importlib
 
-DAY = "08"
-YEAR = "2022"
+DAY = "03"
+YEAR = "2023"
 
 def main():
     __run_full_solution(YEAR, DAY)
