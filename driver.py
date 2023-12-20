@@ -1,4 +1,4 @@
-import os, sys, importlib
+import os, sys, importlib, time
 
 DAY = "04"
 YEAR = "2023"
@@ -17,15 +17,23 @@ def __run_full_solution(year, day):
     input_path = day_directory + "input.txt"
     input = __read_input(input_path)
     
+    print()
     print("Day " + day + " Solutions:")
+    print()
     print("\tPart 1:")
     __run_and_print_solution(solution.solution_one, input, day)
+    print()
     print("\tPart 2")
     __run_and_print_solution(solution.solution_two, input, day)
 
 def __run_and_print_solution(solution_func, input, day):
+    start = time.time()
     result = solution_func(input)
-    print("\t\t" + str(result))
+    end = time.time()
+    print("\t\tResult: " + str(result))
+    
+    duration = end - start
+    print("\t\tElapsed: " + str(round(duration, 6)) + " (s)")
 
 def __read_input(fileName):
     with open(fileName) as file:
