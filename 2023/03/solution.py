@@ -11,50 +11,67 @@ def solution_one(input):
 
         latest_visited = 0
         for x in line_iter:
-            # hack because I can't be bothered to figure out how
-            # to skip multiple iterations (num_digits) in python
-            if x < latest_visited: continue
-
             c = line[x]
-            if c.isnumeric():
-                num = int(c)
-                num_digits = 1
-                # get the full number
-                for k in range(x + 1, len(line)):
-                    d = line[k]
-                    if d.isnumeric():
-                        num *= 10
-                        num += int(d)
-                        num_digits += 1
-                    else: break
-                
-                latest_visited = x + num_digits
-                
-                # note: I cheated and added a perimeter of dots around the original input so
-                # there's no need to worry about hitting an out of bounds
-                above = input[y-1][x-1:x+num_digits+1]
-                above = re.sub(find_symbols_pattern, "", above)
+            symbol_match = re.sub(find_symbols_pattern, "", c)
+            if symbol_match:
+                part_nums = __get_part_nums_list(x, y, line, input)
 
-                below = input[y+1][x -1:x+num_digits+1]
-                below = re.sub(find_symbols_pattern, "", below)
-
-                left = line[x-1]
-                left = re.sub(find_symbols_pattern, "", left)
-
-                right = line[x+num_digits]
-                right = re.sub(find_symbols_pattern, "", right)
-
-                if above:
-                    sum += num
-                elif below:
-                    sum += num
-                elif left:
-                    sum += num
-                elif right:
-                    sum += num
-
+                for part_num in part_nums:
+                    sum += part_num
     return sum
 
 def solution_two(input):
+    sum_gear_ratios = 0
 
-    return 0
+    for y in range(0, len(input)):
+        line = input[y]
+        line_iter = iter(range(0, len(line)))
+
+        latest_visited = 0
+        for x in line_iter:
+            c = line[x]
+            if c == "*":
+                part_nums = __get_part_nums_list(x, y,line, input)
+
+                if len(part_nums) == 2:
+                    gear_ratio = part_nums[0] * part_nums[1]
+                    sum_gear_ratios += gear_ratio
+
+    return sum_gear_ratios
+
+def __get_part_nums_list(x, y, line, input):
+    part_nums = []
+    
+    # left, right, up, down
+    part_nums.extend(__find_nums(x - 1, line, part_nums))
+    part_nums.extend(__find_nums(x + 1, line, part_nums))
+    part_nums.extend(__find_nums(x, input[y - 1], part_nums))
+    part_nums.extend(__find_nums(x, input[y + 1], part_nums))
+
+    # diagonals: topleft, topright, bottomleft, bottomright
+    part_nums.extend(__find_nums(x - 1, input[y - 1], part_nums))
+    part_nums.extend(__find_nums(x + 1, input[y - 1], part_nums))
+    part_nums.extend(__find_nums(x - 1, input[y + 1], part_nums))
+    part_nums.extend(__find_nums(x + 1, input[y + 1], part_nums))
+
+    return part_nums
+
+def __find_nums(x, line, part_nums):
+    distinct_nums = []
+    num = ""
+    original_x = x
+    if line[x].isnumeric():
+        while line[x].isnumeric():
+            num = num + line[x]
+            x += 1
+        x = original_x - 1
+        while line[x].isnumeric():
+            num = line[x] + num
+            x -= 1
+
+    if num:
+        num = int(num)
+        if num != 0 and num not in part_nums:
+            distinct_nums.append(num)
+
+    return distinct_nums
